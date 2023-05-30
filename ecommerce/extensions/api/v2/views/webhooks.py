@@ -14,8 +14,12 @@ from stripe.error import SignatureVerificationError
 
 logger = logging.getLogger(__name__)
 
-stripe.api_key = settings.PAYMENT_PROCESSOR_CONFIG['edx']['stripe']['secret_key']
-endpoint_secret = settings.PAYMENT_PROCESSOR_CONFIG['edx']['stripe']['webhook_endpoint_secret']
+try:
+    stripe.api_key = settings.PAYMENT_PROCESSOR_CONFIG['edx']['stripe']['secret_key']
+    endpoint_secret = settings.PAYMENT_PROCESSOR_CONFIG['edx']['stripe']['webhook_endpoint_secret']
+except KeyError:
+    stripe.api_key = 'stripe.api_key'
+    endpoint_secret = 'endpoint_secret'
 
 
 class StripeWebhooksView(APIView):

@@ -183,7 +183,10 @@
     <div class="row help">
         <div class="col-sm-12">
             <p><strong>{% trans "Have questions?" as tmsg %}{{ tmsg | force_escape }}</strong></p>
-            <a href="{{ support_url }}">{% trans "Please read our FAQs to view common questions about our certificates." as tmsg %}{{ tmsg | force_escape }}</a>
+            {% blocktrans asvar tmsg %}
+            Feel free to ask any questions or concerns regarding payment and certificates, contact {start_link}{payment_support_email}{end_link}.
+            {% endblocktrans %}
+            {% interpolate_html tmsg start_link="<a class='nav-link' href='mailto:"|add:payment_support_email|add:"'>"|safe end_link="</a>"|safe payment_support_email=payment_support_email|safe %}
         </div>
     </div>
 </div>
